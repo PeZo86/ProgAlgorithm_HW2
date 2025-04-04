@@ -105,34 +105,29 @@ def draw_precise_spiral_border(grid, path):
                 ax.text(j + 0.5, size - i - 0.5, str(val),
                         ha='center', va='center', fontsize=16)
 
-    # Vonalakat rajzolunk a spirál mentén a cellák éleihez igazítva
+# új megközelítés: a spirálvonal mentén a cellák éleihez igazítva
     for i in range(len(path) - 1):
         r1, c1 = path[i]
         r2, c2 = path[i + 1]
 
-        # Cellák élszélei spirál mentén: a négyzetháló vonalaihoz illeszkednek
-        if r1 == r2:
+        if r1 == r2:  # #vizszintes vonal
+            y = size - r1 
             if c2 > c1:  # jobbra
-                x_start, y_start = c1 +1, size - r1
-                x_end, y_end = c2 + 1, size - r2
-                #x_start, y_start = c1 + 1, size - r1 + 2
-                #x_end, y_end = c2 + 1, size - r2 + 2
+                x1, x2 = c1, c2 + 2
+                x1, x2 = c1 + 1, c2 + 1
             else:  # balra
-                x_start, y_start = c1 - 1, size - r1 - 1
-                x_end, y_end = c2 - 1, size - r2 - 1
-        else:
-            if r1 > r1:  # le
-                x_start, y_start = c1 + 1, size - r1 - 1
-                x_end, y_end = c2 + 1, size - r2 - 1
-                x_start, y_start = c1 + 1, size - r1 - 2
-                x_end, y_end = c2 + 1, size - r2 - 2
+                x1, x2 = c2, c1 + 1
+                x1, x2 = c2 + 1, c1 + 1
+            ax.plot([x1, x2], [y, y], color='red', linewidth=3)
 
-            else:  # fel
-                x_start, y_start = c1, size - r1
-                x_end, y_end = c2, size - r2
-
-
-        ax.plot([x_start, x_end], [y_start, y_end], color='red', linewidth=5)
+        elif c1 == c2:  # függőleges vonal
+            x = c1 + 1
+            if r2 > r1:  # lefele
+                y1, y2 = size - r1 ,size - r2
+            else:  # felfel
+                y1, y2 = size - r2 - 1, size - r1 + 1
+                y1, y2 = size - r2, size - r1
+            ax.plot([x, x], [y1, y2], color='red', linewidth=3)
 
     ax.set_xlim(0, size)
     ax.set_ylim(0, size)
@@ -142,4 +137,53 @@ def draw_precise_spiral_border(grid, path):
 
 # Megjelenítés: pontos spirálvonal a rács élein
 draw_precise_spiral_border(spiral_grid_rule_based, spiral_path)
+"""
+    # Vonalakat rajzolunk a spirál mentén a cellák éleihez igazítva
+    # Vegigmegyünk a spirálvonalon
+    for i in range(len(path) - 1):
+        r1, c1 = path[i]
+        r2, c2 = path[i + 1]
+
+        # Cellák élszélei spirál mentén: a négyzetháló vonalaihoz illeszkednek
+        # Ugyanabban a sorban vagyunk
+        if r1 == r2:
+            if c2 > c1:  # jobbra
+                x_start, y_start = c1 - 2, size - r1
+                x_end, y_end = c2 - 2, size - r2
+                x_start, y_start = c1 -1, size - r1
+                x_end, y_end = c2 - 1, size - r2
+                x_start, y_start = c1 +1, size - r1
+                x_end, y_end = c2 + 1, size - r2
+                x_start, y_start = c1 + 1, size - r1 + 1
+                x_end, y_end = c2 + 1, size - r2 + 1
+                x_start, y_start = c1 + 2, size - r1
+                x_end, y_end = c2 + 2, size - r2 
+
+            else:  # balra
+                x_start, y_start = c1 - 1, size - r1 - 1
+                x_end, y_end = c2 - 1, size - r2 - 1
+                x_start, y_start = c1 - 1, size - r1 - 2
+                x_end, y_end = c2 - 1, size - r2 - 2
+                x_start, y_start = c1 - 2, size - r1 -2
+                x_end, y_end = c2 - 2, size - r2 -2
+        else:
+            if r1 > r2:  # felfel;
+                x_start, y_start = c1 + 1, size - r1 - 1
+                x_end, y_end = c2 + 1, size - r2 - 1
+                x_start, y_start = c1 - 1, size - r1 + 1
+                x_end, y_end = c2 - 1, size - r2 + 1
+                x_start, y_start = c1 - 1, size - r1 + 2
+                x_end, y_end = c2 - 1, size - r2 + 2
+
+                
+
+            else:  # lefele
+                x_start, y_start = c1, size - r1
+                x_end, y_end = c2, size - r2
+
+
+
+        ax.plot([x_start, x_end], [y_start, y_end], color='red', linewidth=5)
+"""
+
 
