@@ -107,30 +107,30 @@ def draw_precise_spiral_border(grid, path):
 
     # Vonalakat rajzolunk a spirál mentén a cellák éleihez igazítva
     for i in range(len(path) - 1):
-        r0, c0 = path[i]
-        r1, c1 = path[i + 1]
+        r1, c1 = path[i]
+        r2, c2 = path[i + 1]
 
         # Cellák élszélei spirál mentén: a négyzetháló vonalaihoz illeszkednek
-        if r1 == r0:
-            if c1 > c0:  # jobbra
-                x_start, y_start = c0, size - r0
-                x_end, y_end = c1 - 1, size - r1 +1
-                x_start, y_start = c0, size - r1
-                x_end, y_end = c1 + 1, size - r1
+        if r1 == r2:
+            if c2 > c1:  # jobbra
+                x_start, y_start = c1 +1, size - r1
+                x_end, y_end = c2 + 1, size - r2
+                #x_start, y_start = c1 + 1, size - r1 + 2
+                #x_end, y_end = c2 + 1, size - r2 + 2
             else:  # balra
-                x_start, y_start = c0 - 1, size - r0
-                x_end, y_end = c1 - 1, size - r1
+                x_start, y_start = c1 - 1, size - r1 - 1
+                x_end, y_end = c2 - 1, size - r2 - 1
         else:
-            if r1 > r0:  # le
-                x_start, y_start = c1, size - r0
-                x_end, y_end = c0, size - r1
-                x_start, y_start = c1 + 1, size - r0 + 2
-                x_end, y_end = c1 + 1, size - r1 + 2
+            if r1 > r1:  # le
+                x_start, y_start = c1 + 1, size - r1 - 1
+                x_end, y_end = c2 + 1, size - r2 - 1
+                x_start, y_start = c1 + 1, size - r1 - 2
+                x_end, y_end = c2 + 1, size - r2 - 2
+
             else:  # fel
-                x_start, y_start = c0, size - r0
-                x_end, y_end = c1, size - r1
-                x_start, y_start = c0, size - r0 
-                x_end, y_end = c1, size - r1
+                x_start, y_start = c1, size - r1
+                x_end, y_end = c2, size - r2
+
 
         ax.plot([x_start, x_end], [y_start, y_end], color='red', linewidth=5)
 
